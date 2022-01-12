@@ -6,15 +6,16 @@ import (
 	ethcommon "github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 	solsha3 "github.com/miguelmota/go-solidity-sha3"
+	"math/big"
 )
 
-func getSignature(userAddr string, id string, salt string, contractAddr string) []byte {
-	kp, _ := secp256k1.NewKeypairFromString("14653d5667a235dd5acc4db4ececc1c734b775cf2753ec7b3d2e39921ddc5a6f")
+func getSignature(userAddr string, id string, salt *big.Int, contractAddr string) []byte {
+	kp, _ := secp256k1.NewKeypairFromString("28890d783391535de55887befc70e2bf109122806f7218121c36fbe12d1d875b")
 
 	// hash
 	hash := solsha3.SoliditySHA3(
 		// types
-		[]string{"address", "string", "string", "address"},
+		[]string{"address", "string", "uint256", "address"},
 		// values
 		[]interface{}{
 			ethcommon.HexToAddress(userAddr),

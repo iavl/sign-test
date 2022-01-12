@@ -2,21 +2,21 @@ package sign
 
 import (
 	"fmt"
+	"math/big"
 	"reflect"
 	"testing"
 )
 
 func Test_sign(t *testing.T) {
-	userAddress := "0x0d50137433c1245673A934D818f9614A72831462"
+	userAddress := "0x170A213b5E8c95D3A8ae4C11569B60c2Ff782ab5"
 	jikeID := "5e6bf0c9"
-	salt := "4bc8ff1a135e6bf0c99"
-	contractAddress := "0xFbFd732617D215252aDE934168e6bdEbD3059af3"
+	salt := big.NewInt(123456789)
+	contractAddress := "0xBa120cE9dB8BC5aD7bf5cfAbaf133A6F9423CFba"
 	// user + jikeID + salt + contract
-	sig := getSignature(userAddress, jikeID, salt, contractAddress)
-	sigStr := fmt.Sprintf("0x%x", sig)
-	fmt.Println(fmt.Sprintf("signature: 0x%x, len: %d", sig, len(sig)))
-	expectedSig := "0x8047a1e82af2321f1b6e5840126a27e8b965c0b80c855462f680cb32ff0912314ac56b7956b827ad02406aff2c8e53e4aeee54cc4d518af8792f76b3d40dfe971c"
-	if !reflect.DeepEqual(expectedSig, sigStr) {
-		t.Fatalf("Output not expected.\n\tExpected: %#v\n\tGot: %#v\n", expectedSig, sigStr)
+	sig := fmt.Sprintf("0x%x", getSignature(userAddress, jikeID, salt, contractAddress))
+	fmt.Println(fmt.Sprintf("userAddress: %s, jikeId: %s, salt: %d, signature: %s", userAddress, jikeID, salt, sig))
+	expectedSig := "0x3968601436516991a0aa9a46f9484294bcffee4d8228d9b90660dee64dfed3c27b0634885be4f4b07a975085f9996dcbeb13365ef73412203f75447d8dbd480d1c"
+	if !reflect.DeepEqual(expectedSig, sig) {
+		t.Fatalf("Output not expected.\n\tExpected: %#v\n\tGot: %#v\n", expectedSig, sig)
 	}
 }
